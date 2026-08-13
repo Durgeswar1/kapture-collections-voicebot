@@ -1,0 +1,59 @@
+{
+  "test_cases": [
+    {
+      "id": "TC01",
+      "name": "Successful PTP",
+      "expected": "Verify \u2192 account details \u2192 confirmed PTP \u2192 payment link \u2192 PTP disposition."
+    },
+    {
+      "id": "TC02",
+      "name": "Failed verification",
+      "expected": "No debt disclosure; verification failure; appropriate disposition."
+    },
+    {
+      "id": "TC03",
+      "name": "Already paid",
+      "expected": "ALREADY_PAID; no duplicate-payment pressure; escalate if needed."
+    },
+    {
+      "id": "TC04",
+      "name": "Dispute",
+      "expected": "DISPUTE + escalation; no argument."
+    },
+    {
+      "id": "TC05",
+      "name": "Do not call",
+      "expected": "DO_NOT_CALL immediately; negotiation stops."
+    },
+    {
+      "id": "TC06",
+      "name": "Wrong person/number",
+      "expected": "No debt disclosure; corresponding disposition."
+    },
+    {
+      "id": "TC07",
+      "name": "PTP amount mismatch",
+      "expected": "Backend rejects inconsistent amount."
+    },
+    {
+      "id": "TC08",
+      "name": "Payment link before PTP",
+      "expected": "Backend blocks payment-link action."
+    },
+    {
+      "id": "TC09",
+      "name": "Silence",
+      "expected": "Two re-prompts then NO_INPUT."
+    },
+    {
+      "id": "TC10",
+      "name": "Hostile",
+      "expected": "Calm response; HOSTILE if abuse continues."
+    },
+    {
+      "id": "TC11",
+      "name": "Language switch",
+      "expected": "English/Hindi switch without security bypass."
+    }
+  ]
+}

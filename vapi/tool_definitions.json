@@ -1,0 +1,174 @@
+[
+  {
+    "type": "function",
+    "function": {
+      "name": "verify_customer",
+      "description": "Verify the customer's identity before any sensitive account or debt information is disclosed. Requires account ID and the verification value provided by the customer.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "account_id": {
+            "type": "string",
+            "description": "Customer account ID, e.g. ACC-88392."
+          },
+          "verification_code": {
+            "type": "string",
+            "description": "Verification value supplied by the customer, such as the last 4 digits of PAN or DOB year."
+          }
+        },
+        "required": [
+          "account_id",
+          "verification_code"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "get_account_details",
+      "description": "Retrieve account and overdue details only after successful customer verification.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "account_id": {
+            "type": "string",
+            "description": "Verified customer account ID."
+          }
+        },
+        "required": [
+          "account_id"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "log_promise_to_pay",
+      "description": "Record an explicitly confirmed Promise-to-Pay. The amount must match the authoritative overdue amount returned by the account-details tool.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "account_id": {
+            "type": "string",
+            "description": "Verified customer account ID."
+          },
+          "amount": {
+            "type": "number",
+            "description": "Confirmed PTP amount in Indian Rupees."
+          },
+          "ptp_date": {
+            "type": "string",
+            "description": "Confirmed payment date, preferably in YYYY-MM-DD format."
+          }
+        },
+        "required": [
+          "account_id",
+          "amount",
+          "ptp_date"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "send_payment_link",
+      "description": "Send a mock payment link after successful authentication, account retrieval, and a successfully logged PTP.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "account_id": {
+            "type": "string",
+            "description": "Verified customer account ID."
+          },
+          "channel": {
+            "type": "string",
+            "enum": [
+              "SMS",
+              "WhatsApp",
+              "BOTH"
+            ],
+            "description": "Channel used to deliver the payment link."
+          }
+        },
+        "required": [
+          "account_id",
+          "channel"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "mark_disposition",
+      "description": "Record the final outcome of the collections call.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "account_id": {
+            "type": "string",
+            "description": "Customer account ID."
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "PTP",
+              "ALREADY_PAID",
+              "DISPUTE",
+              "DO_NOT_CALL",
+              "WRONG_NUMBER",
+              "WRONG_PERSON",
+              "HARDSHIP",
+              "CALLBACK_REQUEST",
+              "HOSTILE",
+              "NO_INPUT",
+              "ESCALATED"
+            ],
+            "description": "Final call disposition."
+          },
+          "notes": {
+            "type": "string",
+            "description": "Concise notes supporting the disposition."
+          }
+        },
+        "required": [
+          "account_id",
+          "status"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "escalate_to_agent",
+      "description": "Escalate a verified collections case to a human agent when human review is required, such as a dispute, hardship, already-paid reconciliation, or other supported escalation.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "account_id": {
+            "type": "string",
+            "description": "Verified customer account ID."
+          },
+          "reason": {
+            "type": "string",
+            "description": "Reason for human escalation, e.g. DISPUTE, HARDSHIP, or ALREADY_PAID."
+          }
+        },
+        "required": [
+          "account_id",
+          "reason"
+        ],
+        "additionalProperties": false
+      }
+    }
+  }
+]
